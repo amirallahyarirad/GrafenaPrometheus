@@ -1,0 +1,21 @@
+version: '3.9'
+
+volumes:
+    data: {}
+
+services:
+    prometheus:
+        image: prom/prometheus:v2.53.1
+        container_name: prometheus
+        volumes:
+          - /etc/prometheus:/etc/prometheus
+          - data:/prometheus
+        command:
+          - '--config.file=/etc/prometheus/prometheus.yml'
+          - '--storage.tsdb.path=/prometheus'
+          - '--web.console.templates=/etc/prometheus/consoles'
+          - '--web.console.libraries=/etc/prometheus/console_libraries'
+          - '--web.enable-lifecycle'
+        ports:
+          - "9090:9090"
+        restart: unless-stopped
